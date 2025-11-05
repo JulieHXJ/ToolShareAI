@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>ToolShare AI</title>
+  <style>
+    :root{
+      --ts-orange:#FF8C00;
+      --ts-white:#ffffff;
+      --ts-dark:#222222;
+    }
+
+    /* 页面骨架，让 footer 贴底 */
+    html, body { height:100%; }
+    body {
+      font-family:'Segoe UI',sans-serif;
+      margin:0;
+      background:linear-gradient(135deg,#e9f0ff,#f7fbff);
+      color:#222;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    main { flex:1; }
+
+    header{
+      background-color:var(--ts-orange);
+      color:#fff;
+      padding:1.5rem 2rem;
+      display:flex;justify-content:space-between;align-items:center;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    }
+    header h1{
+      margin:0;font-size:1.6rem;letter-spacing:.5px;
+      display:flex;align-items:center;gap:.5rem;
+    }
+    nav a{
+      color:#fff;margin-left:1rem;text-decoration:none;font-weight:500;
+      display:inline-flex;align-items:center;gap:.4rem;
+    }
+    nav a:hover{ text-decoration:underline; }
+
+    .hero{ text-align:center;padding:4rem 2rem; }
+    .hero h2{ font-size:2.2rem;color:var(--ts-orange);margin-bottom:1rem; }
+    .hero p{ max-width:600px;margin:0 auto 2rem;line-height:1.5;color:#333; }
+
+    .btn{
+      background:var(--ts-orange);color:#fff;padding:.9rem 1.8rem;border-radius:8px;
+      text-decoration:none;font-weight:bold;box-shadow:0 3px 6px rgba(0,0,0,.15);
+      display:inline-flex;align-items:center;gap:.5rem;transition:.3s;
+    }
+    .btn:hover{ background:#e07a00; }
+
+    footer{
+      margin-top:auto;text-align:center;padding:1.5rem;background:var(--ts-orange);
+      color:#fff;font-size:.9rem;
+    }
+
+    /* ===== Inline SVG 标志样式 ===== */
+    .ts-mark { width: 44px; height: 44px; vertical-align: middle; }
+	
+    /* 可选：大方形 App Logo（如果要在别处用） */
+    .ts-app-logo{
+      width:256px;aspect-ratio:1/1;display:inline-block;border-radius:24%;
+      background:var(--ts-orange);box-shadow:0 10px 30px rgba(255,140,0,.25);
+    }
+    .ts-app-logo svg{ width:100%;height:100%; }
+
+    /* AI Assistant */
+    .assistant{
+      position:fixed;bottom:24px;right:24px;background:#fff;border:1px solid #ddd;
+      border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);width:250px;display:none;
+      animation:fadeIn .3s ease;z-index:99;
+    }
+    .assistant-header{
+      background:var(--ts-orange);color:#fff;padding:.8rem;border-radius:12px 12px 0 0;
+      font-weight:bold;display:flex;align-items:center;gap:.5rem;
+    }
+    .assistant-body{ padding:1rem;font-size:.9rem;color:#333; }
+    .assistant-body button{
+      margin-top:.5rem;display:block;width:100%;border:none;background:#fff5eb;color:var(--ts-orange);
+      border-radius:6px;padding:.4rem;cursor:pointer;transition:background .2s;
+    }
+    .assistant-body button:hover{ background:#ffe3c4; }
+    @keyframes fadeIn{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>
+		<img src="toolshare_logo_white.svg" alt="ToolShare AI Logo" class="ts-mark" />
+      ToolShare AI
+      
+    </h1>
+
+    <nav>
+      <a href="#"><i class="fas fa-home"></i> Home</a>
+      <a href="#"><i class="fas fa-map-marked-alt"></i> Map</a>
+      <a href="#"><i class="fas fa-user-circle"></i> Login / Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Scan • Borrow • Build • Return</h2>
+      <p>The Smart DIY Tool Station in Your Neighborhood</p>
+      <a href="#" class="btn"><i class="fas fa-qrcode"></i> Start Scanning</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 ToolShare AI — Designed for Smart DIYers
+  </footer>
+
+  <!-- AI Assistant Popup（放在 footer 之外） -->
+  <div class="assistant" id="assistant">
+    <div class="assistant-header">
+      <i class="fas fa-robot"></i> AI Assistant
+    </div>
+    <div class="assistant-body" id="assistant-body">
+      <p>Hi there! Need help?</p>
+      <button onclick="showAnswer('works')"><i class="fas fa-info-circle"></i> How it works</button>
+      <button onclick="showAnswer('tools')"><i class="fas fa-wrench"></i> Tools recommendation</button>
+      <button onclick="showAnswer('contact')"><i class="fas fa-envelope"></i> Other questions</button>
+    </div>
+  </div>
+
+  <script>
+    // AI Assistant idle trigger
+    let idleTimer;
+    const assistant = document.getElementById('assistant');
+    const bodyBox = document.getElementById('assistant-body');
+
+    function showAssistant(){ assistant.style.display='block'; }
+    function resetTimer(){
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(showAssistant, 30000); // 30s idle
+    }
+    function showAnswer(type){
+      if(type==='works'){
+        bodyBox.innerHTML = "<p><i class='fas fa-info-circle'></i> Scan the station QR, log in, select a tool, pick it up, and return when done.</p>";
+      }else if(type==='tools'){
+        bodyBox.innerHTML = "<p><i class='fas fa-wrench'></i> Popular: Bosch Drill, Metabo Grinder, Makita Sander.</p>";
+      }else{
+        bodyBox.innerHTML = "<p><i class='fas fa-envelope'></i> Contact us: support@toolshare.ai</p>";
+      }
+      setTimeout(()=>{ assistant.style.display='none'; resetTimer(); }, 7000);
+    }
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+    resetTimer();
+  </script>
+</body>
+</html>
