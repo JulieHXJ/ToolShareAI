@@ -60,7 +60,7 @@
 
     /* ===== Inline SVG 标志样式 ===== */
     .ts-mark { width: 44px; height: 44px; vertical-align: middle; }
-	
+
     /* 可选：大方形 App Logo（如果要在别处用） */
     .ts-app-logo{
       width:256px;aspect-ratio:1/1;display:inline-block;border-radius:24%;
@@ -85,7 +85,48 @@
     }
     .assistant-body button:hover{ background:#ffe3c4; }
     @keyframes fadeIn{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-  </style>
+	
+	@media (max-width: 600px) {
+  header { padding: 1rem 1.2rem; }
+  /* 品牌不换行，整体稍微缩小一点 */
+  header h1 {
+    white-space: nowrap;
+    font-size: 1.35rem;   /* 原 1.6rem，可按需微调 */
+    gap: 0.4rem;
+    line-height: 1.1;
+  }
+  /* 放大一下logo图标更清晰（可选） */
+  .ts-mark { width: 36px; height: 36px; }
+
+  /* 顶部导航：仅显示图标，隐藏文字标签 */
+  nav a { margin-left: 0.6rem; font-size: 0; } /* 用 font-size:0 避免多余间距 */
+  nav a i { font-size: 20px; }                 /* 明确图标尺寸 */
+  nav a .label { display: none; }              /* 隐藏文字 */
+
+  /* 英雄区：四个词分行、居中显示 */
+  .hero h2 {
+    font-size: 1.8rem;        /* 适配手机 */
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+  .hero .tagline {
+    display: grid;
+    gap: 4px;
+    justify-items: center;
+    margin-top: 6px;
+  }
+  .hero .tagline span {
+    display: block;
+    text-align: center;
+  }
+
+  /* 主按钮稍微加大点击区 */
+  .btn { padding: 0.85rem 1.4rem; }
+}
+ 
+ 
+ 
+ </style>
 </head>
 <body>
 
@@ -96,16 +137,27 @@
       
     </h1>
 
-    <nav>
+    <!-- <nav>
       <a href="#"><i class="fas fa-home"></i> Home</a>
       <a href="#"><i class="fas fa-map-marked-alt"></i> Map</a>
       <a href="#"><i class="fas fa-user-circle"></i> Login / Register</a>
-    </nav>
+    </nav> -->
+	<nav>
+  <a href="#" aria-label="Home"><i class="fas fa-home"></i> <span class="label">Home</span></a>
+  <a href="#" aria-label="Map"><i class="fas fa-map-marked-alt"></i> <span class="label">Map</span></a>
+  <a href="#" aria-label="Login / Register"><i class="fas fa-user-circle"></i> <span class="label">Login / Register</span></a>
+</nav>
+
   </header>
 
   <main>
     <section class="hero">
-      <h2>Scan • Borrow • Build • Return</h2>
+      <div class="tagline" aria-hidden="true">
+    <span>Scan</span>
+    <span>Borrow</span>
+    <span>Build</span>
+    <span>Return</span>
+  </div>
       <p>The Smart DIY Tool Station in Your Neighborhood</p>
       <a href="#" class="btn"><i class="fas fa-qrcode"></i> Start Scanning</a>
     </section>
